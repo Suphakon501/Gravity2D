@@ -485,13 +485,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelPrefabs:
-  - {fileID: 3904606211910669209, guid: 5c61e91e2f88133438e9c1e8af944871, type: 3}
-  - {fileID: 3904606211910669209, guid: a1bbe8cdb6ecfd141a0d607c5936f140, type: 3}
   - {fileID: 3904606211910669209, guid: 803aaf0f1b6a8784d9353a51e1d85774, type: 3}
-  - {fileID: 4250377396799529267, guid: c522ff367a1587840b2e3846b6d72fd6, type: 3}
-  - {fileID: 8639633095265185298, guid: 7e3f83ed4a31de84cac82a12e6938e63, type: 3}
+  - {fileID: 1071552011300137597, guid: 5d31d9724607f3545853311707a179e9, type: 3}
+  - {fileID: 1071552011300137597, guid: 5d31d9724607f3545853311707a179e9, type: 3}
   player: {fileID: 1160222378}
-  mapLength: 80
+  mapLength: 75
   fixedY: 0
   triggerOffset: 40
 --- !u!4 &1302747142

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class camera_controller : MonoBehaviour
 {
-    public Transform obj;   // ตัวละครหรือวัตถุที่ให้กล้องตาม
+    public Transform obj;   
 
     // Start is called before the first frame update
     void Start()

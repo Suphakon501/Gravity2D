@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 1160222375}
   - component: {fileID: 1160222374}
   - component: {fileID: 1160222373}
+  - component: {fileID: 1160222379}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -311,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9cca74907a8cd44b4917ecd008d2b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRunSpeed: 12
+  maxRunSpeed: 15
   acceleration: 0.45
   currentRunSpeed: 2.5
   gravityScale: 5
@@ -320,6 +321,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  isGrounded: 0
 --- !u!50 &1160222375
 Rigidbody2D:
   serializedVersion: 5
@@ -334,7 +336,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0.1
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -381,8 +383,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.017549193, y: -0.108220376}
-  m_Size: {x: 0.20692271, y: 0.49356014}
+  m_Offset: {x: 0.030701019, y: -0.11348105}
+  m_Size: {x: 0.24900848, y: 0.5356453}
   m_Direction: 0
 --- !u!212 &1160222377
 SpriteRenderer:
@@ -448,13 +450,30 @@ Transform:
   m_GameObject: {fileID: 1160222372}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.7, y: -10.595, z: 0}
+  m_LocalPosition: {x: -18.9, y: -10.595, z: 0}
   m_LocalScale: {x: 3.9730866, y: 3.9730866, z: 3.9730866}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 847575545}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1160222379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160222372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a987ba1eb1a374f92413571ff3bf99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 4
+  flashDuration: 0.3
+  flashCount: 5
+  maxAirTime: 2
+  airTimer: 0
 --- !u!1 &1302747140
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,11 +504,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelPrefabs:
-  - {fileID: 3904606211910669209, guid: 803aaf0f1b6a8784d9353a51e1d85774, type: 3}
-  - {fileID: 1071552011300137597, guid: 5d31d9724607f3545853311707a179e9, type: 3}
-  - {fileID: 1071552011300137597, guid: 5d31d9724607f3545853311707a179e9, type: 3}
+  - {fileID: 3569294090716148986, guid: d4560c4916ae45940b3f22e012021351, type: 3}
+  - {fileID: 3160386655202581140, guid: 788cdd94c2d296043901d708a1e11be5, type: 3}
+  - {fileID: 2023718089455972027, guid: 3f567a382d30ab94fa7da9e600c1be73, type: 3}
+  - {fileID: 2643120984398530882, guid: aeb1e35fed7248a4eb97e3e274f19971, type: 3}
+  - {fileID: 6747051841297904637, guid: 0b1a37c9b71d6744da9caf518275ab1a, type: 3}
+  - {fileID: 4159602716986710438, guid: d7f8a0fcd6dcae4499871975f525fc77, type: 3}
+  - {fileID: 5773473173889433035, guid: d54fe6e3113d6c441937a03ca953681b, type: 3}
+  - {fileID: 4053940060045341979, guid: e0c687fe15272ff48a29080dd5349a10, type: 3}
+  - {fileID: 7489476271066630336, guid: b97d512b8945fe74892097fbc845c421, type: 3}
   player: {fileID: 1160222378}
-  mapLength: 75
+  mapLength: 78
   fixedY: 0
   triggerOffset: 40
 --- !u!4 &1302747142

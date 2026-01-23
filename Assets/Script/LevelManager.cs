@@ -17,7 +17,7 @@ public class LevelManager : MonoBehaviour
     {
         nextSpawnX = 0f;
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             SpawnLevel();
         }

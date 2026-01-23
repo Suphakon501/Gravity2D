@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;        
     public float checkRadius = 0.3f;     
     public LayerMask whatIsGround;       
-    private bool isGrounded;
+    public bool isGrounded;
 
     void Start()
     {
@@ -51,5 +51,10 @@ public class PlayerController : MonoBehaviour
         float pushDirection = gravityDown ? -1f : 1f;
 
         rb.AddForce(Vector2.up * pushDirection * 2f, ForceMode2D.Impulse);
+    }
+    
+    public bool GetGroundedStatus()
+    {
+        return isGrounded;
     }
 }

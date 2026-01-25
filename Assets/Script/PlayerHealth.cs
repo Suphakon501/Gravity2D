@@ -64,6 +64,10 @@ public class PlayerHealth : MonoBehaviour
             StartCoroutine(DamageFlicker());
         }
     }
+    public int CurrentHealth
+    {
+        get { return currentHealth; }
+    }
 
     IEnumerator DamageFlicker()
     {
@@ -78,9 +82,11 @@ public class PlayerHealth : MonoBehaviour
         isInvincible = false;
     }
 
+    public DeathPopupUI deathPopupUI;
+
     void Die()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        deathPopupUI.ShowDeathPopup();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

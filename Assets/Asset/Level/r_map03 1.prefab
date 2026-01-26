@@ -20547,6 +20547,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7052010477368387505, guid: 63221c5e910d35e43847e3a16692a3a0, type: 3}
+      propertyPath: m_TagString
+      value: obstruction
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,4 +1,5 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -28,7 +29,17 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void Start()
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         PlayGameplayBGM();
     }
@@ -36,6 +47,11 @@ public class AudioManager : MonoBehaviour
     // ===== BGM =====
     public void PlayGameplayBGM()
     {
+        if (bgmSource == null || gameplayBGM == null) return;
+
+        if (bgmSource.clip == gameplayBGM && bgmSource.isPlaying) return;
+
+        bgmSource.Stop();
         bgmSource.clip = gameplayBGM;
         bgmSource.loop = true;
         bgmSource.Play();
@@ -43,6 +59,9 @@ public class AudioManager : MonoBehaviour
 
     public void PlayDeathBGM()
     {
+        if (bgmSource == null || deathBGM == null) return;
+
+        bgmSource.Stop();
         bgmSource.clip = deathBGM;
         bgmSource.loop = false;
         bgmSource.Play();
@@ -51,11 +70,13 @@ public class AudioManager : MonoBehaviour
     // ===== SFX =====
     public void PlayJumpSFX()
     {
+        if (sfxSource == null || jumpSFX == null) return;
         sfxSource.PlayOneShot(jumpSFX);
     }
 
     public void PlayHitSFX()
     {
+        if (sfxSource == null || hitSFX == null) return;
         sfxSource.PlayOneShot(hitSFX);
     }
 }

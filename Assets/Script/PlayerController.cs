@@ -4,10 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float maxRunSpeed = 10f;
-
-    [Range(0f, 1f)]
-    public float startSpeedPercent = 0.6f;
-
+    [Range(0f, 1f)] public float startSpeedPercent = 0.6f;
     public float acceleration = 4f;
     private float currentRunSpeed;
 
@@ -23,7 +20,11 @@ public class PlayerController : MonoBehaviour
     public bool isGrounded;
 
     [Header("State")]
-    public bool canMove = true;   
+    public bool canMove = true;
+
+    [Header("Slow Motion")]
+    public float slowTimeScale = 0.3f;
+    private bool isSlow = false;
 
     private Animator animator;
 
@@ -32,7 +33,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        
         canMove = true;
         gravityDown = true;
 
@@ -41,6 +41,10 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = gravityScale;
         rb.linearVelocity = Vector2.zero;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        // กัน TimeScale ค้างจากรอบก่อน
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
     }
 
     void Update()
@@ -51,7 +55,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        
+        // ===== MOVE =====
         currentRunSpeed = Mathf.MoveTowards(
             currentRunSpeed,
             maxRunSpeed,
@@ -60,20 +64,46 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = new Vector2(currentRunSpeed, rb.linearVelocity.y);
 
-        
+        // ===== GROUND CHECK =====
         isGrounded = Physics2D.OverlapCircle(
             groundCheck.position,
             checkRadius,
             whatIsGround
         );
 
-        
+        // ===== JUMP =====
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             AudioManager.Instance.PlayJumpSFX();
             animator.ResetTrigger("Jump");
             animator.SetTrigger("Jump");
             FlipGravity();
+        }
+
+        // ===== SLOW MOTION (คลิกซ้าย) =====
+        if (Input.GetMouseButtonDown(0))
+        {
+            ToggleSlowMotion();
+        }
+    }
+
+    void ToggleSlowMotion()
+    {
+        isSlow = !isSlow;
+
+        if (isSlow)
+        {
+            Time.timeScale = slowTimeScale;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
+            AudioManager.Instance.PlaySlowStart();
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            Time.fixedDeltaTime = 0.02f;
+
+            AudioManager.Instance.PlaySlowEnd();
         }
     }
 
@@ -93,7 +123,6 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector2.up * pushDirection * 2f, ForceMode2D.Impulse);
     }
 
-    
     public bool GetGroundedStatus()
     {
         return isGrounded;

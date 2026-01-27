@@ -16,6 +16,8 @@ public class AudioManager : MonoBehaviour
     [Header("SFX")]
     public AudioClip jumpSFX;
     public AudioClip hitSFX;
+    public AudioClip slowStartSFX;
+    public AudioClip slowEndSFX;
 
     void Awake()
     {
@@ -78,5 +80,17 @@ public class AudioManager : MonoBehaviour
     {
         if (sfxSource == null || hitSFX == null) return;
         sfxSource.PlayOneShot(hitSFX);
+    }
+
+    public void PlaySlowStart()
+    {
+        if (sfxSource == null || slowStartSFX == null) return;
+        sfxSource.PlayOneShot(slowStartSFX);
+    }
+
+    public void PlaySlowEnd()
+    {
+        if (sfxSource == null || slowEndSFX == null) return;
+        sfxSource.PlayOneShot(slowEndSFX);
     }
 }

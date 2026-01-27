@@ -1,24 +1,26 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarUI : MonoBehaviour
+public class HealthUI : MonoBehaviour
 {
-    public Slider healthSlider;
-    public PlayerHealth playerHealth;
-    public float smoothSpeed = 5f;
+    public Image heartImage;
 
-    void Start()
+    public Color fullHealthColor = Color.red;
+    public Color lowHealthColor = Color.black;
+
+    void OnEnable()
     {
-        healthSlider.maxValue = playerHealth.maxHealth;
-        healthSlider.value = playerHealth.maxHealth;
+        PlayerHealth.OnHealthChanged += UpdateHeartColor;
     }
 
-    void Update()
+    void OnDisable()
     {
-        healthSlider.value = Mathf.Lerp(
-            healthSlider.value,
-            playerHealth.CurrentHealth,
-            Time.deltaTime * smoothSpeed
-        );
+        PlayerHealth.OnHealthChanged -= UpdateHeartColor;
+    }
+
+    void UpdateHeartColor(int current, int max)
+    {
+        float t = 1f - ((float)current / max);
+        heartImage.color = Color.Lerp(fullHealthColor, lowHealthColor, t);
     }
 }

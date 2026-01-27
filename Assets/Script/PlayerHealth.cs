@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -50,11 +51,17 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public static Action<int, int> OnHealthChanged;
+
     public void TakeDamage(int damage)
     {
         if (isInvincible) return;
 
         currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
         if (currentHealth <= 0)
         {
             Die();

@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
+            AudioManager.Instance.PlayJumpSFX();
             animator.ResetTrigger("Jump");
             animator.SetTrigger("Jump");
             FlipGravity();

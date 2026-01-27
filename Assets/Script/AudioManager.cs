@@ -4,53 +4,58 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    [Header("BGM")]
+    [Header("Audio Sources")]
     public AudioSource bgmSource;
-    public AudioClip gameBGM;
+    public AudioSource sfxSource;
+
+    [Header("BGM")]
+    public AudioClip gameplayBGM;
     public AudioClip deathBGM;
 
     [Header("SFX")]
-    public AudioSource sfxSource;
     public AudioClip jumpSFX;
-    public AudioClip hurtSFX;
+    public AudioClip hitSFX;
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    
-    public void PlayGameBGM()
+    void Start()
     {
-        bgmSource.clip = gameBGM;
+        PlayGameplayBGM();
+    }
+
+    // ===== BGM =====
+    public void PlayGameplayBGM()
+    {
+        bgmSource.clip = gameplayBGM;
         bgmSource.loop = true;
         bgmSource.Play();
     }
 
     public void PlayDeathBGM()
     {
-        bgmSource.Stop();
         bgmSource.clip = deathBGM;
         bgmSource.loop = false;
         bgmSource.Play();
     }
 
-    
+    // ===== SFX =====
     public void PlayJumpSFX()
     {
         sfxSource.PlayOneShot(jumpSFX);
     }
 
-    public void PlayHurtSFX()
+    public void PlayHitSFX()
     {
-        sfxSource.PlayOneShot(hurtSFX);
+        sfxSource.PlayOneShot(hitSFX);
     }
 }

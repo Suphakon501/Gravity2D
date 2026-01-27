@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -9,14 +9,19 @@ public class DeathPopupUI : MonoBehaviour
 
     void Start()
     {
-        deathPanel.SetActive(false);
+        if (deathPanel != null)
+            deathPanel.SetActive(false);
     }
 
     public void ShowDeathPopup()
     {
-        deathPanel.SetActive(true);
-        scoreText.text = "Score : " + Mathf.FloorToInt(ScoreManager.score);
-        Time.timeScale = 0f; 
+        if (deathPanel != null)
+            deathPanel.SetActive(true);
+
+        if (scoreText != null)
+            scoreText.text = "Score : " + Mathf.FloorToInt(ScoreManager.score);
+
+        Time.timeScale = 0f;
     }
 
     public void RestartGame()

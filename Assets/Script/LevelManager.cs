@@ -1,22 +1,43 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    [Header("��õ�駤�����")]
-    public List<GameObject> levelPrefabs;  
-    public Transform player;               
-    public float mapLength = 126.75f;      
-    public float fixedY = 0f;              
-    public float triggerOffset = 50f;      
+    public static LevelManager Instance;
+
+    [Header("Map Settings")]
+    public List<GameObject> levelPrefabs;
+    public Transform player;
+    public float mapLength = 126.75f;
+    public float fixedY = 0f;
+    public float triggerOffset = 50f;
 
     private List<GameObject> activeChunks = new List<GameObject>();
-    private float nextSpawnX = 0f;         
+    private float nextSpawnX = 0f;
+
+    void Awake()
+    {
+        // ❌ ห้าม DontDestroyOnLoad กับ LevelManager
+        Instance = this;
+    }
 
     void Start()
     {
+        ResetLevel();
+    }
+
+    public void ResetLevel()
+    {
+        // 🔥 ลบแมพเก่าทั้งหมด
+        foreach (GameObject chunk in activeChunks)
+        {
+            Destroy(chunk);
+        }
+
+        activeChunks.Clear();
         nextSpawnX = 0f;
 
+        // 🔁 สร้างแมพใหม่
         for (int i = 0; i < 3; i++)
         {
             SpawnLevel();
@@ -34,9 +55,10 @@ public class LevelManager : MonoBehaviour
 
         if (activeChunks.Count > 0)
         {
-            float firstChunkEndPosX = activeChunks[0].transform.position.x + mapLength;
+            float firstChunkEndX =
+                activeChunks[0].transform.position.x + mapLength;
 
-            if (player.position.x > firstChunkEndPosX + 30f)
+            if (player.position.x > firstChunkEndX + 30f)
             {
                 RemoveOldLevel();
             }
@@ -46,22 +68,24 @@ public class LevelManager : MonoBehaviour
     void SpawnLevel()
     {
         int randomIndex = Random.Range(0, levelPrefabs.Count);
-
         Vector3 spawnPos = new Vector3(nextSpawnX, fixedY, 0);
-        GameObject chunk = Instantiate(levelPrefabs[randomIndex], spawnPos, Quaternion.identity);
+
+        GameObject chunk = Instantiate(
+            levelPrefabs[randomIndex],
+            spawnPos,
+            Quaternion.identity
+        );
 
         activeChunks.Add(chunk);
-
         nextSpawnX += mapLength;
     }
 
     void RemoveOldLevel()
     {
-        if (activeChunks.Count > 0)
-        {
-            GameObject chunkToDelete = activeChunks[0];
-            activeChunks.RemoveAt(0);
-            Destroy(chunkToDelete);
-        }
+        if (activeChunks.Count == 0) return;
+
+        GameObject oldChunk = activeChunks[0];
+        activeChunks.RemoveAt(0);
+        Destroy(oldChunk);
     }
 }

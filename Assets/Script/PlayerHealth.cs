@@ -52,7 +52,7 @@ public class PlayerHealth : MonoBehaviour
         HandleAirTimer();
     }
 
-    // ================= AIR TIMER =================
+    
     void HandleAirTimer()
     {
         if (playerController != null && !playerController.GetGroundedStatus())
@@ -61,7 +61,7 @@ public class PlayerHealth : MonoBehaviour
 
             if (airTimer >= maxAirTime)
             {
-                Die(); // ⭐ ตกแมพ = ตายตรง ๆ
+                Die(); 
             }
         }
         else
@@ -70,10 +70,11 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // ================= DAMAGE =================
+    
     public void TakeDamage(int damage)
     {
         if (isInvincible || isDead) return;
+        AudioManager.Instance.PlayHitSFX();
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -126,6 +127,7 @@ public class PlayerHealth : MonoBehaviour
         {
             ScoreManager.isAlive = false;
         }
+        AudioManager.Instance.PlayDeathBGM();
 
         deathPopupUI.ShowDeathPopup();
     }

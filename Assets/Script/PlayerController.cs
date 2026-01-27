@@ -2,6 +2,7 @@
 
 public class PlayerController : MonoBehaviour
 {
+
     [Header("Movement Settings")]
     public float maxRunSpeed = 10f;
     [Range(0f, 1f)] public float startSpeedPercent = 0.6f;
@@ -25,15 +26,18 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     // ================= SLOW TIME =================
-    [Header("Slow Time Settings")]
-    public float slowScale = 0.3f;
-    public float slowMaxGauge = 3f;
-    public float slowDrainSpeed = 1f;
-    public float slowRecoverSpeed = 0.8f;
+    [Header("Slow Motion")]
+    public float slowMaxGauge = 5f;
+    public float slowGauge = 5f;
+    public float slowDrainSpeed = 1.5f;
+    public float slowRecoverSpeed = 0.6f;
+    public float slowScale = 0.4f;
+    public float unlockThreshold = 1.0f; // 🔓 ต้องฟื้นถึงเท่านี้ถึงใช้ได้
 
-    private float slowGauge;
-    private bool isSlowing = false;
-    
+    bool isSlowing = false;
+    bool slowLocked = false; // 🔒 ตัวนี้สำคัญ
+
+
 
     void Start()
     {
@@ -115,34 +119,59 @@ public class PlayerController : MonoBehaviour
     // ================= SLOW TIME =================
     void HandleSlowTime()
     {
-        // 🔊 เสียงดัง "ครั้งเดียว" ตอนเริ่มกด
-        if (Input.GetMouseButtonDown(0) && slowGauge > 0f)
+        // =========================
+        // 🔒 ถ้าถูกล็อก
+        // =========================
+        if (slowLocked)
         {
-            AudioManager.Instance.PlaySlowStart();
+            slowGauge += slowRecoverSpeed * Time.unscaledDeltaTime;
+            slowGauge = Mathf.Clamp(slowGauge, 0f, slowMaxGauge);
+
+            // 🔓 ปลดล็อกเมื่อฟื้นพอ
+            if (slowGauge >= unlockThreshold)
+            {
+                slowLocked = false;
+            }
+
+            return; // ❌ ห้ามอ่าน Input ใด ๆ
         }
 
-        // ⏳ กดค้าง = สโลว์
-        if (Input.GetMouseButton(0) && slowGauge > 0f)
+        // =========================
+        // ⏳ กดค้างเพื่อสโลว์
+        // =========================
+        if (Input.GetMouseButton(0))
         {
+            if (Input.GetMouseButtonDown(0))
+            {
+                AudioManager.Instance.PlaySlowStart();
+            }
+
             if (!isSlowing)
             {
                 Time.timeScale = slowScale;
-                Time.fixedDeltaTime = 0.02f * Time.timeScale;
+                Time.fixedDeltaTime = 0.02f * slowScale;
                 animator.speed = slowScale;
                 isSlowing = true;
             }
 
             slowGauge -= slowDrainSpeed * Time.unscaledDeltaTime;
+
+            // 🔥 เกจหมด → ตัดทันที + ล็อก
+            if (slowGauge <= 0f)
+            {
+                slowGauge = 0f;
+                ForceStopSlow();
+                slowLocked = true;
+            }
         }
         else
         {
-            // ⏱ ปล่อยปุ่ม = กลับปกติ
+            // =========================
+            // ⏱ ปล่อยปุ่ม
+            // =========================
             if (isSlowing)
             {
-                Time.timeScale = 1f;
-                Time.fixedDeltaTime = 0.02f;
-                animator.speed = 1f;
-                isSlowing = false;
+                ForceStopSlow();
             }
 
             slowGauge += slowRecoverSpeed * Time.unscaledDeltaTime;
@@ -150,6 +179,15 @@ public class PlayerController : MonoBehaviour
 
         slowGauge = Mathf.Clamp(slowGauge, 0f, slowMaxGauge);
     }
+    void ForceStopSlow()
+    {
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
+        animator.speed = 1f;
+        isSlowing = false;
+    }
+
+
 
 
     // ================= UI =================

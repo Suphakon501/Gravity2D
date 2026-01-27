@@ -1,14 +1,12 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-
 
 public class ScoreManager : MonoBehaviour
 {
+    public static float score;    
     public TMP_Text scoreText;
-    public float score;
     public float scoreSpeed = 10f;
-    public bool isAlive = true;
+    public static bool isAlive = true;
 
     void Update()
     {
@@ -18,5 +16,9 @@ public class ScoreManager : MonoBehaviour
         scoreText.text = Mathf.FloorToInt(score).ToString();
     }
 
+    void Awake()
+    {
+        score = 0;
+        isAlive = true;
+    }
 }
-

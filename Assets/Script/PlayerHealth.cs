@@ -124,7 +124,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (scoreManager != null)
         {
-            scoreManager.isAlive = false;
+            ScoreManager.isAlive = false;
         }
 
         deathPopupUI.ShowDeathPopup();

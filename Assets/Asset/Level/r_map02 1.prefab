@@ -9071,6 +9071,7 @@ GameObject:
   - component: {fileID: 4809676900124133287}
   - component: {fileID: 4488173136756327656}
   - component: {fileID: 8931879680278018520}
+  - component: {fileID: 979386005421646974}
   m_Layer: 3
   m_Name: drone-3 (2)
   m_TagString: obstruction
@@ -9204,6 +9205,28 @@ PolygonCollider2D:
       - {x: 0.035, y: 0.24}
       - {x: 0.035, y: 0.25}
   m_UseDelaunayMesh: 0
+--- !u!95 &979386005421646974
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4142596369753493513}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 31cc4b06b5e86a3469d2bf00ce111bb9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4257546487428467379
 GameObject:
   m_ObjectHideFlags: 0
@@ -10019,6 +10042,7 @@ GameObject:
   - component: {fileID: 4394623681807254498}
   - component: {fileID: 7165167890305019152}
   - component: {fileID: 1421811092200616737}
+  - component: {fileID: 4614768595392002770}
   m_Layer: 3
   m_Name: drone-1
   m_TagString: obstruction
@@ -10155,6 +10179,28 @@ PolygonCollider2D:
       - {x: 0.205, y: -0.11}
       - {x: 0.21499999, y: -0.03}
   m_UseDelaunayMesh: 0
+--- !u!95 &4614768595392002770
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4682076964713907218}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 31cc4b06b5e86a3469d2bf00ce111bb9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4745350641537329818
 GameObject:
   m_ObjectHideFlags: 0
@@ -15520,6 +15566,7 @@ GameObject:
   - component: {fileID: 1015417004858956922}
   - component: {fileID: 761488353762935143}
   - component: {fileID: 4567362769774473767}
+  - component: {fileID: 5801710053562632832}
   m_Layer: 3
   m_Name: drone-1 (1)
   m_TagString: obstruction
@@ -15656,6 +15703,28 @@ PolygonCollider2D:
       - {x: 0.205, y: -0.11}
       - {x: 0.21499999, y: -0.03}
   m_UseDelaunayMesh: 0
+--- !u!95 &5801710053562632832
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6769129054691451713}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 31cc4b06b5e86a3469d2bf00ce111bb9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6771113848123384751
 GameObject:
   m_ObjectHideFlags: 0
@@ -15888,6 +15957,7 @@ GameObject:
   - component: {fileID: 1593169693794740614}
   - component: {fileID: 740966246797225571}
   - component: {fileID: 6671686344898237676}
+  - component: {fileID: 7050334199970062881}
   m_Layer: 3
   m_Name: drone-3 (1)
   m_TagString: obstruction
@@ -16021,6 +16091,28 @@ PolygonCollider2D:
       - {x: 0.035, y: 0.24}
       - {x: 0.035, y: 0.25}
   m_UseDelaunayMesh: 0
+--- !u!95 &7050334199970062881
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6913763788601364618}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 31cc4b06b5e86a3469d2bf00ce111bb9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7012753013734442003
 GameObject:
   m_ObjectHideFlags: 0
@@ -18615,6 +18707,7 @@ GameObject:
   - component: {fileID: 5021304427034788381}
   - component: {fileID: 3062673447085370022}
   - component: {fileID: 4870007049577336414}
+  - component: {fileID: 9003514349954394126}
   m_Layer: 3
   m_Name: drone-3
   m_TagString: obstruction
@@ -18748,6 +18841,28 @@ PolygonCollider2D:
       - {x: 0.035, y: 0.24}
       - {x: 0.035, y: 0.25}
   m_UseDelaunayMesh: 0
+--- !u!95 &9003514349954394126
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8943446827926490972}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 31cc4b06b5e86a3469d2bf00ce111bb9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8981942754631967994
 GameObject:
   m_ObjectHideFlags: 0

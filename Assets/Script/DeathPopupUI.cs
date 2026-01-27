@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class DeathPopupUI : MonoBehaviour
 {
     public GameObject deathPanel;
+    public TMP_Text scoreText;
 
     void Start()
     {
@@ -13,6 +15,7 @@ public class DeathPopupUI : MonoBehaviour
     public void ShowDeathPopup()
     {
         deathPanel.SetActive(true);
+        scoreText.text = "Score : " + Mathf.FloorToInt(ScoreManager.score);
         Time.timeScale = 0f; 
     }
 

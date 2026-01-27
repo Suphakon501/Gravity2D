@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     public float maxRunSpeed = 10f;
 
     [Range(0f, 1f)]
-    public float startSpeedPercent = 0.6f; 
+    public float startSpeedPercent = 0.6f;
 
     public float acceleration = 4f;
     private float currentRunSpeed;
@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour
     public LayerMask whatIsGround;
     public bool isGrounded;
 
+    [Header("State")]
+    public bool canMove = true;   
+
     private Animator animator;
 
     void Start()
@@ -29,14 +32,26 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
+        
+        canMove = true;
+        gravityDown = true;
+
         currentRunSpeed = maxRunSpeed * startSpeedPercent;
 
         rb.gravityScale = gravityScale;
+        rb.linearVelocity = Vector2.zero;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     void Update()
     {
+        if (!canMove)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
+        
         currentRunSpeed = Mathf.MoveTowards(
             currentRunSpeed,
             maxRunSpeed,
@@ -45,14 +60,17 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = new Vector2(currentRunSpeed, rb.linearVelocity.y);
 
+        
         isGrounded = Physics2D.OverlapCircle(
             groundCheck.position,
             checkRadius,
             whatIsGround
         );
 
+        
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
+            animator.ResetTrigger("Jump");
             animator.SetTrigger("Jump");
             FlipGravity();
         }
@@ -61,16 +79,20 @@ public class PlayerController : MonoBehaviour
     void FlipGravity()
     {
         gravityDown = !gravityDown;
+
         rb.gravityScale = gravityDown ? gravityScale : -gravityScale;
 
-        transform.Rotate(180f, 0f, 0f);
+        transform.rotation = gravityDown
+            ? Quaternion.identity
+            : Quaternion.Euler(180f, 0f, 0f);
 
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-        float pushDirection = gravityDown ? -1f : 1f;
 
+        float pushDirection = gravityDown ? -1f : 1f;
         rb.AddForce(Vector2.up * pushDirection * 2f, ForceMode2D.Impulse);
     }
 
+    
     public bool GetGroundedStatus()
     {
         return isGrounded;

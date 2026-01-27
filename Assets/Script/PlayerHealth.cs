@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -17,32 +16,52 @@ public class PlayerHealth : MonoBehaviour
 
     [Header("Air Timer Settings")]
     public float maxAirTime = 5f;
-    [SerializeField] private float airTimer = 0f;
+    private float airTimer = 0f;
 
     private PlayerController playerController;
     private Collider2D playerCollider;
+    private Rigidbody2D rb;
+
+    public static Action<int, int> OnHealthChanged;
+
+    [Header("UI / Manager")]
+    public DeathPopupUI deathPopupUI;
+    public ScoreManager scoreManager;
+
+    private bool isDead = false;
 
     void Start()
     {
         currentHealth = maxHealth;
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerController = GetComponent<PlayerController>();
         playerCollider = GetComponent<Collider2D>();
+        rb = GetComponent<Rigidbody2D>();
+
+        airTimer = 0f;
+        isDead = false;
+
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
     void Update()
     {
+        if (isDead) return;
+
         HandleAirTimer();
     }
 
+    // ================= AIR TIMER =================
     void HandleAirTimer()
     {
         if (playerController != null && !playerController.GetGroundedStatus())
         {
             airTimer += Time.deltaTime;
+
             if (airTimer >= maxAirTime)
             {
-                Die();
+                Die(); // ⭐ ตกแมพ = ตายตรง ๆ
             }
         }
         else
@@ -51,11 +70,10 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    public static Action<int, int> OnHealthChanged;
-
+    // ================= DAMAGE =================
     public void TakeDamage(int damage)
     {
-        if (isInvincible) return;
+        if (isInvincible || isDead) return;
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -71,14 +89,11 @@ public class PlayerHealth : MonoBehaviour
             StartCoroutine(DamageFlicker());
         }
     }
-    public int CurrentHealth
-    {
-        get { return currentHealth; }
-    }
 
     IEnumerator DamageFlicker()
     {
         isInvincible = true;
+
         for (int i = 0; i < flashCount; i++)
         {
             spriteRenderer.color = new Color(1, 1, 1, 0);
@@ -86,22 +101,36 @@ public class PlayerHealth : MonoBehaviour
             spriteRenderer.color = new Color(1, 1, 1, 1);
             yield return new WaitForSeconds(flashDuration);
         }
+
         isInvincible = false;
     }
 
-    public DeathPopupUI deathPopupUI;
-    public ScoreManager scoreManager;
-
-
+    
     void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+        }
+
+        if (playerController != null)
+        {
+            playerController.canMove = false; 
+        }
+
         if (scoreManager != null)
         {
             scoreManager.isAlive = false;
         }
+
         deathPopupUI.ShowDeathPopup();
     }
 
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("obstruction"))
@@ -131,13 +160,8 @@ public class PlayerHealth : MonoBehaviour
         if (playerCollider != null && otherCollider != null)
         {
             Physics2D.IgnoreCollision(playerCollider, otherCollider, true);
-
             yield return new WaitForSeconds(flashDuration * flashCount);
-
-            if (otherCollider != null)
-            {
-                Physics2D.IgnoreCollision(playerCollider, otherCollider, false);
-            }
+            Physics2D.IgnoreCollision(playerCollider, otherCollider, false);
         }
     }
 }

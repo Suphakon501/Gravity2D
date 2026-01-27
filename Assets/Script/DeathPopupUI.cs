@@ -13,7 +13,7 @@ public class DeathPopupUI : MonoBehaviour
     public void ShowDeathPopup()
     {
         deathPanel.SetActive(true);
-        Time.timeScale = 0f; // หยุดเกม
+        Time.timeScale = 0f; 
     }
 
     public void RestartGame()

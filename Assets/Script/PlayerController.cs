@@ -22,32 +22,42 @@ public class PlayerController : MonoBehaviour
     [Header("State")]
     public bool canMove = true;
 
-    [Header("Slow Motion")]
-    public float slowTimeScale = 0.3f;
-    private bool isSlow = false;
-
     private Animator animator;
+
+    // ================= SLOW TIME =================
+    [Header("Slow Time Settings")]
+    public float slowScale = 0.3f;
+    public float slowMaxGauge = 3f;
+    public float slowDrainSpeed = 1f;
+    public float slowRecoverSpeed = 0.8f;
+
+    private float slowGauge;
+    private bool isSlowing = false;
+    
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        canMove = true;
-        gravityDown = true;
-
         currentRunSpeed = maxRunSpeed * startSpeedPercent;
-
         rb.gravityScale = gravityScale;
-        rb.linearVelocity = Vector2.zero;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        rb.linearVelocity = Vector2.zero;
 
-        // กัน TimeScale ค้างจากรอบก่อน
-        Time.timeScale = 1f;
-        Time.fixedDeltaTime = 0.02f;
+        slowGauge = slowMaxGauge;
     }
 
     void Update()
+    {
+        HandleMovement();
+        HandleGroundCheck();
+        HandleJump();
+        HandleSlowTime();
+    }
+
+    // ================= MOVEMENT =================
+    void HandleMovement()
     {
         if (!canMove)
         {
@@ -55,7 +65,6 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // ===== MOVE =====
         currentRunSpeed = Mathf.MoveTowards(
             currentRunSpeed,
             maxRunSpeed,
@@ -63,54 +72,34 @@ public class PlayerController : MonoBehaviour
         );
 
         rb.linearVelocity = new Vector2(currentRunSpeed, rb.linearVelocity.y);
+    }
 
-        // ===== GROUND CHECK =====
+    // ================= GROUND =================
+    void HandleGroundCheck()
+    {
         isGrounded = Physics2D.OverlapCircle(
             groundCheck.position,
             checkRadius,
             whatIsGround
         );
 
-        // ===== JUMP =====
+        animator.SetBool("IsGrounded", isGrounded);
+    }
+
+    // ================= JUMP =================
+    void HandleJump()
+    {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             AudioManager.Instance.PlayJumpSFX();
-            animator.ResetTrigger("Jump");
             animator.SetTrigger("Jump");
             FlipGravity();
-        }
-
-        // ===== SLOW MOTION (คลิกซ้าย) =====
-        if (Input.GetMouseButtonDown(0))
-        {
-            ToggleSlowMotion();
-        }
-    }
-
-    void ToggleSlowMotion()
-    {
-        isSlow = !isSlow;
-
-        if (isSlow)
-        {
-            Time.timeScale = slowTimeScale;
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
-
-            AudioManager.Instance.PlaySlowStart();
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = 0.02f;
-
-            AudioManager.Instance.PlaySlowEnd();
         }
     }
 
     void FlipGravity()
     {
         gravityDown = !gravityDown;
-
         rb.gravityScale = gravityDown ? gravityScale : -gravityScale;
 
         transform.rotation = gravityDown
@@ -121,6 +110,52 @@ public class PlayerController : MonoBehaviour
 
         float pushDirection = gravityDown ? -1f : 1f;
         rb.AddForce(Vector2.up * pushDirection * 2f, ForceMode2D.Impulse);
+    }
+
+    // ================= SLOW TIME =================
+    void HandleSlowTime()
+    {
+        // 🔊 เสียงดัง "ครั้งเดียว" ตอนเริ่มกด
+        if (Input.GetMouseButtonDown(0) && slowGauge > 0f)
+        {
+            AudioManager.Instance.PlaySlowStart();
+        }
+
+        // ⏳ กดค้าง = สโลว์
+        if (Input.GetMouseButton(0) && slowGauge > 0f)
+        {
+            if (!isSlowing)
+            {
+                Time.timeScale = slowScale;
+                Time.fixedDeltaTime = 0.02f * Time.timeScale;
+                animator.speed = slowScale;
+                isSlowing = true;
+            }
+
+            slowGauge -= slowDrainSpeed * Time.unscaledDeltaTime;
+        }
+        else
+        {
+            // ⏱ ปล่อยปุ่ม = กลับปกติ
+            if (isSlowing)
+            {
+                Time.timeScale = 1f;
+                Time.fixedDeltaTime = 0.02f;
+                animator.speed = 1f;
+                isSlowing = false;
+            }
+
+            slowGauge += slowRecoverSpeed * Time.unscaledDeltaTime;
+        }
+
+        slowGauge = Mathf.Clamp(slowGauge, 0f, slowMaxGauge);
+    }
+
+
+    // ================= UI =================
+    public float GetSlowGaugePercent()
+    {
+        return slowGauge / slowMaxGauge;
     }
 
     public bool GetGroundedStatus()

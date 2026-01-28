@@ -3,13 +3,13 @@ using UnityEngine.UI;
 
 public class SlowGaugeUI : MonoBehaviour
 {
-    public PlayerController player;
+    public SlowMotionManager slowManager;
     public Image fillImage;
 
     void Update()
     {
-        if (player == null) return;
+        if (slowManager == null) return;
 
-        fillImage.fillAmount = player.GetSlowGaugePercent();
+        fillImage.fillAmount = slowManager.GetSlowGaugePercent();
     }
 }

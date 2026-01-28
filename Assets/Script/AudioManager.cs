@@ -19,6 +19,12 @@ public class AudioManager : MonoBehaviour
     public AudioClip slowStartSFX;
     public AudioClip slowEndSFX;
 
+    public void StopBGM()
+    {
+        if (bgmSource == null) return;
+        bgmSource.Stop();
+    }
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -43,7 +49,14 @@ public class AudioManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        PlayGameplayBGM();
+        if (scene.name == "Menu")
+        {
+            StopBGM();
+        }
+        else if (scene.name == "Gameplay") 
+        {
+            PlayGameplayBGM();
+        }
     }
 
     // ===== BGM =====

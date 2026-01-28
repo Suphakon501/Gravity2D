@@ -120,12 +120,18 @@ public class PlayerHealth : MonoBehaviour
 
         if (playerController != null)
         {
-            playerController.canMove = false; 
+            playerController.canMove = false;
+            playerController.alive = false;
         }
 
         if (scoreManager != null)
         {
             ScoreManager.isAlive = false;
+        }
+
+        if (SlowMotionManager.Instance != null)
+        {
+            SlowMotionManager.Instance.OnGameOver();
         }
         AudioManager.Instance.PlayDeathBGM();
 

@@ -17,7 +17,6 @@ public class LevelManager : MonoBehaviour
 
     void Awake()
     {
-        // ❌ ห้าม DontDestroyOnLoad กับ LevelManager
         Instance = this;
     }
 
@@ -28,7 +27,6 @@ public class LevelManager : MonoBehaviour
 
     public void ResetLevel()
     {
-        // 🔥 ลบแมพเก่าทั้งหมด
         foreach (GameObject chunk in activeChunks)
         {
             Destroy(chunk);
@@ -37,7 +35,6 @@ public class LevelManager : MonoBehaviour
         activeChunks.Clear();
         nextSpawnX = 0f;
 
-        // 🔁 สร้างแมพใหม่
         for (int i = 0; i < 3; i++)
         {
             SpawnLevel();

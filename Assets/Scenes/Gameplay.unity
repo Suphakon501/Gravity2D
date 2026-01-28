@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f753a4443788cd40b7d81c1f487afb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1160222374}
+  slowManager: {fileID: 1302747144}
   fillImage: {fileID: 80071294}
 --- !u!114 &53246123
 MonoBehaviour:
@@ -1038,8 +1038,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2.1114998}
-  m_SizeDelta: {x: 26.3327, y: 4.2229}
+  m_AnchoredPosition: {x: -8.634033, y: 2.1114807}
+  m_SizeDelta: {x: 43.6007, y: 4.223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &397197597
 MonoBehaviour:
@@ -1251,8 +1251,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -261.3, y: 88}
-  m_SizeDelta: {x: 216.1601, y: 27.02}
+  m_AnchoredPosition: {x: -609, y: 377}
+  m_SizeDelta: {x: 347.1089, y: 41.409973}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &437196148
 MonoBehaviour:
@@ -2183,12 +2183,7 @@ MonoBehaviour:
     m_Bits: 8
   isGrounded: 0
   canMove: 1
-  slowMaxGauge: 3
-  slowGauge: 0
-  slowDrainSpeed: 1
-  slowRecoverSpeed: 0.8
-  slowScale: 0.3
-  unlockThreshold: 1
+  alive: 1
 --- !u!50 &1160222375
 Rigidbody2D:
   serializedVersion: 5
@@ -2666,13 +2661,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35807977aea82ea4e816fc64c2dc72a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGameOver: 0
   slowTimeScale: 0.25
   normalTimeScale: 1
-  maxSlowEnergy: 5
-  drainRate: 1
-  regenRate: 0.5
+  maxSlowEnergy: 100
+  drainRate: 20
+  regenRate: 5
   regenDelay: 1
-  slowCooldown: 5
+  slowCooldown: 2
   unlockThreshold: 1
   slowSlider: {fileID: 437196148}
 --- !u!1 &1346004149
@@ -3013,7 +3009,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -4.9999924, y: 0}
+  m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2129785682
